@@ -20,7 +20,22 @@ defmodule Rockelivery.UserTest do
       assert params == changes
     end
 
-    test "when all the user has under 18 years, should return an invalid changeset" do
+    test "when some required param is missing, should return an invalid changeset" do
+      params = %{
+        age: 18,
+        address: "Rua dos testes, 429",
+        cpf: "12312312311",
+        email: "johnreese@poi.com",
+        password_hash: "somesecretverysecret",
+        name: "John Reese"
+      }
+
+      %Ecto.Changeset{valid?: valid_changeset?, errors: errors} = User.changeset(params)
+      refute valid_changeset?
+      assert errors == [cep: {"can't be blank", [validation: :required]}]
+    end
+
+    test "when the user has under 18 years, should return an invalid changeset" do
       params = %{
         age: 17,
         address: "Rua dos testes, 429",
@@ -44,7 +59,7 @@ defmodule Rockelivery.UserTest do
              ]
     end
 
-    test "when all the cpf param has a invalid length, should return an invalid changeset" do
+    test "when the cpf param has a invalid length, should return an invalid changeset" do
       params = %{
         age: 18,
         address: "Rua dos testes, 429",
@@ -68,7 +83,7 @@ defmodule Rockelivery.UserTest do
              ]
     end
 
-    test "when all the cep param has a invalid length, should return an invalid changeset" do
+    test "when the cep param has a invalid length, should return an invalid changeset" do
       params = %{
         age: 18,
         address: "Rua dos testes, 429",
@@ -92,7 +107,7 @@ defmodule Rockelivery.UserTest do
              ]
     end
 
-    test "when all the password_hash param has a invalid length, should return an invalid changeset" do
+    test "when the password_hash param has an invalid length, should return an invalid changeset" do
       params = %{
         age: 18,
         address: "Rua dos testes, 429",
@@ -114,6 +129,26 @@ defmodule Rockelivery.UserTest do
                  {"should be at least %{count} character(s)",
                   [count: 6, validation: :length, kind: :min, type: :string]}
              ]
+    end
+
+    test "when the email param has an invalid format, should return an invalid changeset" do
+      params = %{
+        age: 18,
+        address: "Rua dos testes, 429",
+        cep: "12341234",
+        cpf: "12312312311",
+        email: "poi.com",
+        password_hash: "shortpasss",
+        name: "John Reese"
+      }
+
+      %Ecto.Changeset{valid?: valid_changeset?, changes: changes, errors: errors} =
+        User.changeset(params)
+
+      refute valid_changeset?
+      assert params == changes
+
+      assert errors == [{:email, {"has invalid format", [validation: :format]}}]
     end
   end
 end
