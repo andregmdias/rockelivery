@@ -1,17 +1,13 @@
 defmodule Rockelivery.UserTest do
+  use Rockelivery.DataCase, async: true
+
+  import Rockelivery.Factory
+
   alias Rockelivery.User
 
   describe "changeset/1" do
     test "when all params are valid, should return a valid changeset" do
-      params = %{
-        age: 18,
-        address: "Rua dos testes, 429",
-        cep: "31442561",
-        cpf: "12312312311",
-        email: "johnreese@poi.com",
-        password: "somesecretverysecret",
-        name: "John Reese"
-      }
+      params = params_for(:user)
 
       %Ecto.Changeset{valid?: valid_changeset?} = User.changeset(params)
 
@@ -34,15 +30,7 @@ defmodule Rockelivery.UserTest do
     end
 
     test "when the user has under 18 years, should return an invalid changeset" do
-      params = %{
-        age: 17,
-        address: "Rua dos testes, 429",
-        cep: "31442561",
-        cpf: "12312312311",
-        email: "johnreese@poi.com",
-        password: "somesecretverysecret",
-        name: "John Reese"
-      }
+      params = params_for(:user, age: 17)
 
       %Ecto.Changeset{valid?: valid_changeset?, errors: errors} = User.changeset(params)
 
@@ -56,15 +44,7 @@ defmodule Rockelivery.UserTest do
     end
 
     test "when the cpf param has a invalid length, should return an invalid changeset" do
-      params = %{
-        age: 18,
-        address: "Rua dos testes, 429",
-        cep: "31442561",
-        cpf: "123123123",
-        email: "johnreese@poi.com",
-        password: "somesecretverysecret",
-        name: "John Reese"
-      }
+      params = params_for(:user, cpf: "123123123")
 
       %Ecto.Changeset{valid?: valid_changeset?, errors: errors} = User.changeset(params)
 
@@ -78,15 +58,7 @@ defmodule Rockelivery.UserTest do
     end
 
     test "when the cep param has a invalid length, should return an invalid changeset" do
-      params = %{
-        age: 18,
-        address: "Rua dos testes, 429",
-        cep: "314425",
-        cpf: "12312312311",
-        email: "johnreese@poi.com",
-        password: "somesecretverysecret",
-        name: "John Reese"
-      }
+      params = params_for(:user, cep: "314425")
 
       %Ecto.Changeset{valid?: valid_changeset?, errors: errors} = User.changeset(params)
 
@@ -100,15 +72,7 @@ defmodule Rockelivery.UserTest do
     end
 
     test "when the password param has an invalid length, should return an invalid changeset" do
-      params = %{
-        age: 18,
-        address: "Rua dos testes, 429",
-        cep: "12341234",
-        cpf: "12312312311",
-        email: "johnreese@poi.com",
-        password: "short",
-        name: "John Reese"
-      }
+      params = params_for(:user, password: "short")
 
       %Ecto.Changeset{valid?: valid_changeset?, errors: errors} = User.changeset(params)
 
@@ -122,15 +86,7 @@ defmodule Rockelivery.UserTest do
     end
 
     test "when the email param has an invalid format, should return an invalid changeset" do
-      params = %{
-        age: 18,
-        address: "Rua dos testes, 429",
-        cep: "12341234",
-        cpf: "12312312311",
-        email: "poi.com",
-        password: "shortpasss",
-        name: "John Reese"
-      }
+      params = params_for(:user, email: "poi.com")
 
       %Ecto.Changeset{valid?: valid_changeset?, errors: errors} = User.changeset(params)
 
