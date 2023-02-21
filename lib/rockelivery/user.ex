@@ -15,7 +15,7 @@ defmodule Rockelivery.User do
           cpf: String.t(),
           email: String.t(),
           password: String.t(),
-          password: String.t(),
+          password_hash: String.t(),
           name: String.t()
         }
 

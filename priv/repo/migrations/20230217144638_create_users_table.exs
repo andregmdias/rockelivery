@@ -3,6 +3,7 @@ defmodule Rockelivery.Repo.Migrations.CreateUsersTable do
 
   def change do
     create table(:users) do
+      add :age, :integer
       add :address, :string
       add :cep, :string
       add :cpf, :string
