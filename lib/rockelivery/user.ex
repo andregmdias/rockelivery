@@ -7,6 +7,18 @@ defmodule Rockelivery.User do
 
   @required_fields ~w(age address cep cpf email password name)a
 
+  @type t :: %__MODULE__{
+          id: binary(),
+          age: String.t(),
+          address: String.t(),
+          cep: String.t(),
+          cpf: String.t(),
+          email: String.t(),
+          password: String.t(),
+          password: String.t(),
+          name: String.t()
+        }
+
   schema "users" do
     field(:age, :integer)
     field(:address, :string)
