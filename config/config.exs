@@ -9,7 +9,7 @@ import Config
 
 config :rockelivery,
   ecto_repos: [Rockelivery.Repo],
-  generators: [binary_id: true]
+  generators: [binary_id: true, migration: true]
 
 # Configures the endpoint
 config :rockelivery, RockeliveryWeb.Endpoint,

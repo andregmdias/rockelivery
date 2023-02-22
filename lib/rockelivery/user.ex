@@ -2,7 +2,7 @@ defmodule Rockelivery.User do
   @moduledoc """
   Representa o schema da tabela users
   """
-  use Ecto.Schema
+  use Rockelivery.Schema
   import Ecto.Changeset
 
   @required_fields ~w(age address cep cpf email password name)a
