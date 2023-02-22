@@ -7,13 +7,13 @@ defmodule Rockelivery.Factory do
 
   def user_factory do
     %Rockelivery.User{
-      age: 18,
-      address: "Rua dos testes, 429",
+      age: Enum.random(18..80),
+      address: sequence(:name, &"Rua #{&1}"),
       cep: "31442561",
-      cpf: "12312312311",
-      email: "johnreese@poi.com",
+      cpf: CPF.generate() |> to_string(),
+      email: sequence(:name, &"name#{&1}@poi.com"),
       password: "somesecretverysecret",
-      name: "John Reese"
+      name: sequence(:name, &"Name #{&1}")
     }
   end
 end
