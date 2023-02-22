@@ -29,9 +29,11 @@ defmodule Rockelivery.CreateTest do
           age: 17
         )
 
-      {:error, changeset} = Create.call(user_params)
+      {:error, %{result: result, status: status}} = Create.call(user_params)
 
-      assert changeset.errors == [
+      assert status == :bad_request
+
+      assert result.errors == [
                email: {"has invalid format", [validation: :format]},
                age:
                  {"must be greater than or equal to %{number}",
@@ -52,9 +54,11 @@ defmodule Rockelivery.CreateTest do
       insert(:user, cpf: "12312312311")
       user_params = params_for(:user, cpf: "12312312311")
 
-      {:error, changeset} = Create.call(user_params)
+      {:error, %{result: result, status: status}} = Create.call(user_params)
 
-      assert changeset.errors == [
+      assert status == :bad_request
+
+      assert result.errors == [
                cpf:
                  {"has already been taken",
                   [constraint: :unique, constraint_name: "users_cpf_index"]}
@@ -65,9 +69,11 @@ defmodule Rockelivery.CreateTest do
       insert(:user, email: "email@email.com", cpf: "32132132111")
       user_params = params_for(:user, email: "email@email.com")
 
-      {:error, changeset} = Create.call(user_params)
+      {:error, %{result: result, status: status}} = Create.call(user_params)
 
-      assert changeset.errors == [
+      assert status == :bad_request
+
+      assert result.errors == [
                email:
                  {"has already been taken",
                   [constraint: :unique, constraint_name: "users_email_index"]}
