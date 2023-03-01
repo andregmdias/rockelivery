@@ -1,7 +1,6 @@
 defmodule RockeliveryWeb.UserController do
   use RockeliveryWeb, :controller
 
-  alias RockeliveryWeb.ErrorView
   alias RockeliveryWeb.FallbackController
   alias Rockelivery.User
 
@@ -20,6 +19,12 @@ defmodule RockeliveryWeb.UserController do
       conn
       |> put_status(:ok)
       |> render("user.json", user: user)
+    end
+  end
+
+  def delete(conn, %{"id" => id}) do
+    with {:ok, _deleted} <- Rockelivery.delete_user_by_id(id) do
+      send_resp(conn, :ok, "")
     end
   end
 end
